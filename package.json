@@ -2,8 +2,9 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "name": "nextflow",
   "description": "A simple control-flow library for Node.js targetted towards CoffeeScript developers.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/jprichardson/node-nextflow",
+  "keywords": ["async", "seq", "step", "asynchronous", "sequential", "control", "flow", "coffee", "coffee-script", "coffeescript"],
   "repository": {
     "type": "git",
     "url": "git@github.com:jprichardson/node-nextflow.git"
