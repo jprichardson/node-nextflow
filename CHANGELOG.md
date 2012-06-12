@@ -1,3 +1,7 @@
+0.1.1 / 2012-06-12
+------------------
+* Bug fix related to `next()` function losing scope of proper `this`
+
 0.1.0 / 2012-06-07
 ------------------
 * Added ability to call function labels directly

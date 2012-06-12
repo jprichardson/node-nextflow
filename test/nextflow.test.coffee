@@ -1,6 +1,8 @@
 tutil = require('testutil')
 next = require('../lib/nextflow')
 util = require('util')
+fs = require('fs-extra')
+path = require('path-extra')
 
 describe 'next()', ->
   it "should sequentially execute the functions", (done) ->
@@ -86,4 +88,21 @@ describe 'next()', ->
         done()
 
     next(flow)
+
+  it 'should execute the next callback', (done) ->
+    dir = path.tempdir()
+    fs.mkdir dir, (err) ->
+      T err is null
+
+      flow =
+        first: ->
+          fs.exists dir, @next
+          #@next(itDoes)
+        second: (itDoes) ->
+          T itDoes
+          done()
+      next(flow)
+
+
+
 

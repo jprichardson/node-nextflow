@@ -14,7 +14,7 @@ class NextFlow
             val.apply(@, arguments)
           
 
-  next: ->
+  next: =>
     if @current is null
       @current = @keys[0]
       @funcs[0].apply(@, arguments)
