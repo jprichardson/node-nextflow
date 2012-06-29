@@ -26,6 +26,9 @@ class NextFlow
 
 
 next = (nextObject) ->
+  if typeof nextObject isnt 'object'
+    throw new Error('next() function expected object.')
+
   nf = new NextFlow(nextObject)
   nf.next()
 

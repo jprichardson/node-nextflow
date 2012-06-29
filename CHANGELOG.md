@@ -1,3 +1,7 @@
+0.1.2 / 2012-06-29
+------------------
+* Throws an error if input to `next()` is not an object
+
 0.1.1 / 2012-06-12
 ------------------
 * Bug fix related to `next()` function losing scope of proper `this`

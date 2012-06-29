@@ -103,6 +103,21 @@ describe 'next()', ->
           done()
       next(flow)
 
+  it 'should throw an error if the parameter is not an object', (done) ->
+    flow = -> #<-- notice, the function arrow SHOULD NOT be here
+      1: ->
+        console.log "Hi, I'll never be executed. =("
+        @next()
+      2: ->
+        console.log 'Please fix me.'
+        done() #<---- will never get here
+
+    try 
+      next(flow)
+    catch err
+      T err.message.toLowerCase().indexOf('expected object') >= 0
+      done()
+
 
 
 
