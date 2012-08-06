@@ -9,7 +9,7 @@ describe 'next()', ->
     vals = []
     x = 0
 
-    flow =
+    next flow =
       1: ->
         vals.push(1)
         @next()
@@ -30,13 +30,13 @@ describe 'next()', ->
         T vals[3] is 4
         done()
 
-    next(flow)
+    
 
   it 'should execute the functions specified by the label', (done) ->
     vals = []
     x = 0
 
-    flow =
+    next flow =
       a1: ->
         vals.push(1)
         @a2()
@@ -57,7 +57,7 @@ describe 'next()', ->
         T vals[3] is 4
         done()
 
-    next(flow)
+    
 
 
   it 'should execute the functions by label or by the function next', (done) ->
@@ -65,7 +65,7 @@ describe 'next()', ->
     x = 0
     y = 0
 
-    flow =
+    next flow =
       a1: ->
         vals.push(1)
         @a2()
@@ -87,7 +87,7 @@ describe 'next()', ->
         T vals[3] is y
         done()
 
-    next(flow)
+    
 
   it 'should execute the next callback', (done) ->
     dir = path.tempdir()
@@ -103,6 +103,8 @@ describe 'next()', ->
           done()
       next(flow)
 
+
+
   it 'should throw an error if the parameter is not an object', (done) ->
     flow = -> #<-- notice, the function arrow SHOULD NOT be here
       1: ->
@@ -117,6 +119,27 @@ describe 'next()', ->
     catch err
       T err.message.toLowerCase().indexOf('expected object') >= 0
       done()
+
+
+  it 'should execute the error function if it exists and an error is passed into the first parameter', (done) ->
+    next flow = 
+      error: (err) ->
+        T err?
+        T err.message is 'some error'
+        done()
+      a1: ->
+        @next()
+      a2: ->
+        @next(new Error('some error'))
+       
+  it 'should execute the error function if it exists an an error is thrown', (done) ->
+    next flow =
+      error: (err) ->
+        T err?
+        T err.message is 'some error'
+        done()
+      a1: ->
+        throw new Error('some error')
 
 
 

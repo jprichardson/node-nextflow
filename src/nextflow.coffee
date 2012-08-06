@@ -4,6 +4,10 @@ class NextFlow
     @keys = []
     @funcs = []
     @current = null
+    @errorFunc = null
+
+    @_checkForErrorFunction()
+
     for key,val of @nextObject
       if @nextObject.hasOwnProperty(key)
         @keys.push(key)
@@ -14,15 +18,40 @@ class NextFlow
             val.apply(@, arguments)
           
 
-  next: =>
+  next: (err) =>
+    if err? and @errorFunc?
+      @errorFunc(err)
+      return
+
     if @current is null
       @current = @keys[0]
-      @funcs[0].apply(@, arguments)
+      try
+        @funcs[0].apply(@, arguments)
+      catch error
+        if @errorFunc?
+          @errorFunc(error)
+        else
+          throw error
     else
       idx = @keys.indexOf(@current)
       idx += 1
       @current = @keys[idx]
-      @funcs[idx].apply(@, arguments)
+      try
+        @funcs[idx].apply(@, arguments)
+      catch error
+        if @errorFunc?
+          @errorFunc(error)
+        else
+          throw error
+      
+
+  _checkForErrorFunction: ->
+    for key,val of @nextObject
+      if @nextObject.hasOwnProperty(key)
+        if key.toLowerCase() is 'error'
+          @errorFunc = val
+          delete @nextObject[key]
+          
 
 
 next = (nextObject) ->

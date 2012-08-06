@@ -3,6 +3,8 @@ Node.js - NextFlow
 
 A simple control-flow library for Node.js targetted towards CoffeeScript developers.
 
+
+
 Why?
 ----
 
@@ -54,6 +56,7 @@ Seq().seq(->
 Yuck. If you're programming in JavaScript, all of them are very usable solutions. Also, to be fair, they do a lot more than NextFlow. But NextFlow looks much nicer with CoffeeScript programs.
 
 
+
 Usage
 -----
 
@@ -71,7 +74,7 @@ next = require('nextflow')
 vals = []
 x = 0
 
-flow =
+next flow =
   1: ->
     vals.push(1)
     @next()
@@ -91,7 +94,7 @@ flow =
     console.log vals[2] #is x
     console.log vals[3] #is 4
 
-next(flow)
+
 ```
 
 Call functions by the label:
@@ -100,7 +103,7 @@ Call functions by the label:
 vals = []
 x = 0
 
-flow =
+next flow =
   a1: ->
     vals.push(1)
     @a2()
@@ -120,7 +123,6 @@ flow =
     console.log vals[2] #is x
     console.log vals[3] #is 4
 
-next(flow)
 ```
 
 Call either `next()` or call the label:
@@ -130,7 +132,7 @@ vals = []
 x = 0
 y = 0
 
-flow =
+next flow =
   a1: ->
     vals.push(1)
     @a2()
@@ -151,8 +153,34 @@ flow =
     console.log vals[2] #is x
     console.log vals[3] #is y
 
-next(flow)
+
 ```
+
+Handle errors in one function:
+
+```coffee
+next flow = 
+  error: (err) ->
+    console.log err.message
+  1: ->
+    throw new Error('some error')
+```
+
+Handle errors by passing them as first params of the @next callback:
+
+```coffee
+next flow = 
+  error: (err) ->
+    console.log err.message #ENOENT, open '/tmp/this_file_hopefully_does_not_exist'
+  1: ->
+    nonExistentFile = '/tmp/this_file_hopefully_does_not_exist'
+    fs.readFile nonExistentFile, @next
+```
+
+
+
+License
+-------
 
 MIT Licensed
 
@@ -161,3 +189,6 @@ Copyright (c) 2012 JP Richardson
 [1]: https://github.com/caolan/async
 [2]: https://github.com/creationix/step
 [3]: https://github.com/substack/node-seq
+
+
+

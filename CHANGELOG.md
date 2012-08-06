@@ -1,3 +1,6 @@
+0.2.0 / 2012-08-6
+* Added an error handling method.
+
 0.1.2 / 2012-06-29
 ------------------
 * Throws an error if input to `next()` is not an object
