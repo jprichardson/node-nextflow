@@ -1,4 +1,9 @@
-0.2.0 / 2012-08-6
+0.2.1 / 2012-08-07
+------------------
+* Added ability to manually call the `error` function.
+
+0.2.0 / 2012-08-06
+-----------------
 * Added an error handling method.
 
 0.1.2 / 2012-06-29

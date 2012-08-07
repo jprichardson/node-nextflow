@@ -177,6 +177,16 @@ next flow =
     fs.readFile nonExistentFile, @next
 ```
 
+Manually call the error function if you want
+
+```coffee
+next flow = 
+  error: (err) ->
+    console.log err.message #"I feel like calling an error."
+  a1: ->
+    @error(new Error("I feel like calling an error."))
+```
+
 
 
 License

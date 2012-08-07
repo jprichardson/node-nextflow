@@ -16,7 +16,12 @@ class NextFlow
           @[key] = ->
             @current = key
             val.apply(@, arguments)
-          
+  
+  error: =>
+    if @errorFunc?
+      @errorFunc.apply(@, arguments)
+    else
+      throw new Error('Error function not set.')      
 
   next: (err) =>
     if err? and @errorFunc?

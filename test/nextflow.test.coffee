@@ -141,6 +141,19 @@ describe 'next()', ->
       a1: ->
         throw new Error('some error')
 
+  it 'should manually call the error function if it exists', (done) ->
+    next flow = 
+      error: (err) ->
+        T err?
+        T err.message is 'manually called'
+        done()
+      a1: ->
+        @error(new Error('manually called'))
+
+
+
+
+
 
 
 
