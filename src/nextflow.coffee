@@ -24,7 +24,7 @@ class NextFlow
       throw new Error('Error function not set.')      
 
   next: (err) =>
-    if err? and @errorFunc?
+    if err? and err instanceof Error and @errorFunc?
       @errorFunc(err)
       return
 

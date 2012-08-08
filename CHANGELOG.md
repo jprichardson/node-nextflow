@@ -1,3 +1,7 @@
+0.2.2 / 2012-08-08
+------------------
+* Fixed regression with came up with the introduction of the `error` method.
+
 0.2.1 / 2012-08-07
 ------------------
 * Added ability to manually call the `error` function.

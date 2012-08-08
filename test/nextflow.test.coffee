@@ -150,6 +150,17 @@ describe 'next()', ->
       a1: ->
         @error(new Error('manually called'))
 
+  it 'should go to the next method with parameters', (done) ->
+    next flow = 
+      error: (err) ->
+        T err?
+        T err instanceof Error
+        done(new Error('this shouldnt be called'))
+      1: ->
+        @next('hi')
+      2: (msg) ->
+        T msg is 'hi'
+        done()
 
 
 
