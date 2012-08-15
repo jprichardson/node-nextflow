@@ -167,7 +167,7 @@ next flow =
 
 #### Error Handling 
 
-Handle errors in one function:
+Handle errors in one function. Label it `error:`, `ERROR:` or `ErRoR`. Case doesn't matter.
 
 ```coffee
 next flow = 
