@@ -73,7 +73,7 @@ Usage
 -----
 
 
-#### Sequentially, calling the `next()` function, pass arguments if you'd like:
+#### Sequentially, calling the `next()` function, pass arguments to `next()` if you'd like:
 
 ```coffee
 next = require('nextflow')
@@ -105,7 +105,7 @@ next flow =
 ```
 
 
-#### Call functions by the label:
+#### Call functions by the label, pass arguments too:
 
 ```coffee
 vals = []
@@ -294,6 +294,16 @@ next({
     }
 });
 ```
+
+
+Browser Compatibility
+---------------------
+
+I haven't made this browser compatible just yet, but you can do so with a simple modification of attaching `next` to the `window` object. Although, I caution you to test thoroughly, as this module depends upon stability of insertion order into the objects. If this is violated, you're going to have problems. It's my understanding that this is not part of the ECMA standard despite most browsers adhering to this.
+
+Read this discussion for more information: 
+http://code.google.com/p/v8/issues/detail?id=164
+
 
 
 License
