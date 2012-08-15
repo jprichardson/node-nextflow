@@ -1,7 +1,7 @@
 Node.js - NextFlow
 ==================
 
-A simple control-flow library for Node.js targetted towards CoffeeScript developers.
+A simple control-flow library for Node.js targetted towards CoffeeScript developers. It's JavaScript friendly too.
 
 
 
@@ -55,18 +55,25 @@ Seq().seq(->
 
 Yuck. If you're programming in JavaScript, all of them are very usable solutions. Also, to be fair, they do a lot more than NextFlow. But NextFlow looks much nicer with CoffeeScript programs.
 
+### Regarding Async
+
+There's been some comments made towards my criticism of `async`. Justifiably so. When, I wrote NextFlow, I wasn't aware of 
+async's waterfall and object passing capabilities. However, these methods still have their warts. I still believe that NextFlow is a lightweight library compared to async's do everything approach, I also think that NextFlow's syntax is much more pleasing, even for JavaScript development.
+
+
+
+Installation
+------------
+
+    npm install --production nextflow
+
 
 
 Usage
 -----
 
-Install:
 
-    npm install --production nextflow
-
-Can be used in the browser too.
-
-Execute sequentially, calling the `next()` function:
+### Sequentially, calling the `next()` function:
 
 ```coffee
 next = require('nextflow')
@@ -97,7 +104,8 @@ next flow =
 
 ```
 
-Call functions by the label:
+
+### Call functions by the label:
 
 ```coffee
 vals = []
@@ -125,7 +133,8 @@ next flow =
 
 ```
 
-Call either `next()` or call the label:
+
+### Call either `next()` or call the label:
 
 ```coffee
 vals = []
@@ -155,6 +164,8 @@ next flow =
 
 
 ```
+
+### Error Handling 
 
 Handle errors in one function:
 
@@ -189,6 +200,102 @@ next flow =
 
 
 
+JavaScript Friendly
+------------------
+
+Example pulled from [Rock][rock]. Also uses [BatchFlow][batchflow].
+
+```javascript
+next({
+    ERROR: function(err) {
+        console.error(err);
+    },
+    isRepoPathLocal: function() {
+        fs.exists(repoPath, this.next);
+    },
+    copyIfLocal: function(itsLocal) {
+        if (itsLocal) {
+            fs.copy(repoPath, projectPath, this.gitDirExist);
+        } else {
+            this.next();
+        }
+    },
+    execGit: function() {
+        exec(util.format("git clone %s %s", repoPath, projectPath), this.next);
+    },
+    gitDirExist: function(params) {
+        fs.exists(path.join(projectPath, '.git'), this.next);
+    },
+    removeGitDir: function(gdirExists) {
+        if (gdirExists)
+            fs.remove(path.join(projectPath, '.git'), this.next);
+        else
+            this.next();
+    },
+    checkRockConf: function() {
+        fs.exists(projectRockConf, this.next);
+    },
+    loadRockConf: function(rockConfExists) {
+        if (rockConfExists)
+            fs.readFile(projectRockConf, this.next);
+        else
+            this.next();
+    },
+    walkFiles: function(err, data) {
+        var files = [], self = this; ignoreDirs = [];
+
+        if (data) {
+            projectRockObj = JSON.parse(data.toString());
+            ignoreDirs = projectRockObj.ignoreDirs;
+            if (ignoreDirs) {
+                for (var i = 0; i < ignoreDirs.length; ++i) {
+                    ignoreDirs[i] = path.resolve(projectPath, ignoreDirs[i]);
+                }
+            } else {
+                ignoreDirs = [];
+            }
+        }
+
+        walker(projectPath)
+          .filterDir(function(dir, stat) { 
+            if (dir === projectRockPath)
+                return false;
+            else
+                if (ignoreDirs.indexOf(dir) >= 0) 
+                    return false;
+                else
+                    return true;
+          })
+          .on('file', function(file) { files.push(file) })
+          .on('end', function() { self.next(files); });
+    },
+    tweezeFiles: function(files) {
+        tweezers.readFilesAndExtractUniq(files, this.next);
+    },
+    promptUser: function(err, tokenObj) {
+        var replacements = {}, self = this;
+
+        var rl = readline.createInterface({input: process.stdin, output: process.stdout})
+        
+        batch(tokenObj.tokens).seq().each(function(i, token, done) { 
+            if (_(getSystemTokens()).keys().indexOf(token) === -1) {
+                rl.question(token + ': ', function(input){
+                    replacements[token] = input.trim();
+                    done();
+                });
+            } else {
+                replacements[token] = getSystemTokens()[token];
+                done();
+            }
+        }).end(function(){
+            rl.close();
+            endCallback();
+        });
+    }
+});
+```
+
+
 License
 -------
 
@@ -199,6 +306,8 @@ Copyright (c) 2012 JP Richardson
 [1]: https://github.com/caolan/async
 [2]: https://github.com/creationix/step
 [3]: https://github.com/substack/node-seq
+[rock]: https://github.com/rocktemplates/rock
+[batchflow]: https://github.com/jprichardson/node-batchflow
 
 
 

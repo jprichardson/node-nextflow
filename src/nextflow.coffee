@@ -13,7 +13,7 @@ class NextFlow
         @keys.push(key)
         @funcs.push(val)
         do (key, val) => 
-          @[key] = ->
+          @[key] = =>
             @current = key
             val.apply(@, arguments)
   

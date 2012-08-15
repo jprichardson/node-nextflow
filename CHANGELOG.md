@@ -1,3 +1,7 @@
+0.2.3 / 2012-08-15
+------------------
+* Fixed bug do to scoping issue when calling a named label from a function outside of nextflow.
+
 0.2.2 / 2012-08-08
 ------------------
 * Fixed regression with came up with the introduction of the `error` method.

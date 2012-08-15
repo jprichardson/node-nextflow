@@ -162,6 +162,19 @@ describe 'next()', ->
         T msg is 'hi'
         done()
 
+  it 'should have the proper this scope when executing named functions', (done) ->
+    obj = 
+      doSomething: (callback) ->
+        callback()
+    
+    next flow =
+      a1: ->
+        @next()
+      a2: ->
+        obj.doSomething(@a3)
+      a3: ->
+        done()
+
 
 
 
