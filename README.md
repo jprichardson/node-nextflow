@@ -65,7 +65,7 @@ async's waterfall and object passing capabilities. However, these methods still 
 Installation
 ------------
 
-    npm install --production nextflow
+    npm install nextflow
 
 
 
@@ -73,7 +73,7 @@ Usage
 -----
 
 
-### Sequentially, calling the `next()` function:
+#### Sequentially, calling the `next()` function, pass arguments if you'd like:
 
 ```coffee
 next = require('nextflow')
@@ -105,7 +105,7 @@ next flow =
 ```
 
 
-### Call functions by the label:
+#### Call functions by the label:
 
 ```coffee
 vals = []
@@ -134,7 +134,7 @@ next flow =
 ```
 
 
-### Call either `next()` or call the label:
+#### Call either `next()` or call the label:
 
 ```coffee
 vals = []
@@ -165,7 +165,7 @@ next flow =
 
 ```
 
-### Error Handling 
+#### Error Handling 
 
 Handle errors in one function:
 
