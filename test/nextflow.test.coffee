@@ -175,6 +175,12 @@ describe 'next()', ->
       a3: ->
         done()
 
+  it 'this should be the same as the variable', (done) ->
+    next flow =
+      a1: ->
+        T flow == @
+        done()
+
 
 
 
