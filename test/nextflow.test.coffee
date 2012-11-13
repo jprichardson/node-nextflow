@@ -92,8 +92,6 @@ describe 'next()', ->
   it 'should execute the next callback', (done) ->
     dir = path.tempdir()
     fs.mkdir dir, (err) ->
-      T err is null
-
       flow =
         first: ->
           fs.exists dir, @next
