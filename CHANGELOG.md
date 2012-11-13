@@ -1,3 +1,8 @@
+0.3.0 / 2012-11-13
+------------------
+* Rewrote from CoffeeScript to JavaScript.
+* Added capability where `this` or `@` is the same as the variable passed into the `next()` function.
+
 0.2.3 / 2012-08-15
 ------------------
 * Fixed bug do to scoping issue when calling a named label from a function outside of nextflow.
