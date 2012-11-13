@@ -23,31 +23,36 @@ module.exports = (nextObject) ->
           current = key
           val.apply(nextObject, arguments)
 
+  tryIt = (callback) ->
+    try
+      callback()
+    catch error
+      if errorFunc
+        errorFunc(error)
+      else
+        throw error
+
+      
+
   nextObject.next = (err) =>
     if err? and err instanceof Error and errorFunc?
       errorFunc(err)
       return
 
+    args = Array.prototype.slice.call(arguments, 0)
+
     if current is null
       current = keys[0]
-      try
-        funcs[0].apply(nextObject, arguments)
-      catch error
-        if errorFunc?
-          errorFunc(error)
-        else
-          throw error
+      tryIt ->
+        funcs[0].apply(nextObject, args)
+     
     else
       idx = keys.indexOf(current)
       idx += 1
       current = keys[idx]
-      try
-        funcs[idx].apply(nextObject, arguments)
-      catch error
-        if errorFunc?
-          errorFunc(error)
-        else
-          throw error
+      tryIt ->
+        funcs[idx].apply(nextObject, args)
+     
 
   nextObject.next()
 ###
