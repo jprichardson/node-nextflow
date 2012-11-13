@@ -71,16 +71,18 @@ describe 'next()', ->
         @a2()
       a2: ->
         vals.push(2)
-        x = Math.random()
+        x = 'a2'#Math.random()
         @a3(x)
       a3: (num) ->
         vals.push(num)
-        y = Math.random()
+        y = 'a3'#Math.random()
         @next(y)
       a4: (num) ->
         vals.push(num)
         @a5()
       a5: ->
+        console.dir(vals)
+        T vals.length == 4
         T vals[0] is 1
         T vals[1] is 2
         T vals[2] is x
