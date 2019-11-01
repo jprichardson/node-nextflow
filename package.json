@@ -19,7 +19,7 @@
   "devDependencies": {
     "test-util": "0.1.x",
     "mocha": "*",
-    "growl": "1.5.x",
+    "growl": "1.10.x",
     "fs-extra": "0.1.x",
     "path-extra": "0.0.x"
   },
